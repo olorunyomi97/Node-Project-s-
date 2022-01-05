@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const tasks = require('./routes/tasks')
+const connectDB = require('./db/connect')
 
 
 // MIDDLEWARE
@@ -20,4 +21,15 @@ app.use('/api/v1/tasks', tasks)
 // app.delete('/api/v1/tasks/:id') - delete task
 
 const port = 3500
-app.listen(port,console.log(`Server is listening on port ${port}...`))
+
+const start = async () => {
+    try {
+        await connectDB()
+        app.listen(port,console.log(`Server is listening on port ${port}...`))
+        
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+start()
